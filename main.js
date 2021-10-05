@@ -10,14 +10,7 @@ function main () {
         C (  0.0,  0.5 )
         D ( -0.5,  0.5 )
     */
-    let vertices = [
-        -0.5, -0.5, 0.0, 1.0, 0.0,  // Point A
-         0.5, -0.5, 0.0, 0.0, 1.0,  // Point B
-         0.5,  0.5, 1.0, 0.0, 0.0,  // Point C 
-         0.5,  0.5, 1.0, 0.0, 0.0,  // Point C
-        -0.5,  0.5, 1.0, 0.0, 0.0,  // Point D
-        -0.5, -0.5, 0.0, 1.0, 0.0   // Point A
-    ];
+    let vertices = [];
 
     // Create a linked-list for starting the vertices data
     let buffer = gl.createBuffer()
@@ -90,37 +83,57 @@ function main () {
     );
     gl.enableVertexAttribArray(aColor);
 
-    let freeze = false;    
-    // Apply some interaction using mouse
-    function onMouseClick (event) {
-        freeze = !freeze;
-    }
-    document.addEventListener("click", onMouseClick, false);
-    // Apply some interaction using keyboard
-    function onKeydown (event) {
-        if (event.keyCode == 32) freeze = true;
-    }
-    function onKeyup (event) {
-        if (event.keyCode == 32) freeze = false;
-    }
-    document.addEventListener("keydown", onKeydown, false);
-    document.addEventListener("keyup", onKeyup, false);
-
-    let speed = [3 / 600, 1 / 600];
-    // Create a uniform to animate the vertices
-    let uChange = gl.getUniformLocation(shaderProgram, "uChange");
-    let change = [0, 0];
+    let speed = 1 / 100;
+    let up = true;
+    let up1 = true;
+    let up2 = false;
+    let y = 0;
 
     function render () {
-        if (!freeze) {
-            change[0] += speed[0];
-            change[1] += speed[1];
-            gl.uniform2fv(uChange, change);
-            gl.clearColor(0.1, 0.1, 0.1, 1.0);
-            gl.clear(gl.COLOR_BUFFER_BIT);
-            gl.drawArrays(gl.TRIANGLES, 0, 6);
-        }
+        vertices1.forEach((value, index) => {
+            if (up1) {
+                if (index % 5 == 1) {
+                    value += speed;
+                    value >= 0.85 ? up = false : up = true;
+                }
+            } else {
+                if (index % 5 == 1) {
+                    value -= speed;
+                    value <= 0 ? up = true : up = false;
+                }
+            }
+            vertices1[index] = value;
+        });
+        up1 = up;
+        vertices2.forEach((value, index) => {
+            if (up2) {
+                if (index % 5 == 1) {
+                    value += speed;
+                    value >= 0.85 ? up = false : up = true;
+                }
+            } else {
+                if (index % 5 == 1) {
+                    value -= speed;
+                    value <= 0 ? up = true : up = false;
+                }
+            }
+            vertices2[index] = value;
+        });
+        up2 = up;
+
+
+        vertices.push(...vertices1);
+        vertices.push(...vertices2);
+        
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+
+        gl.clearColor(0.770, 0.750, 0.750, 1.0);
+        gl.clear(gl.COLOR_BUFFER_BIT);
+        gl.drawArrays(gl.TRIANGLES, 0, vertices.length / 5);
+        
+        vertices = [];
         requestAnimationFrame(render);
     }
+    console.log(vertices.length);
     requestAnimationFrame(render);
 }
