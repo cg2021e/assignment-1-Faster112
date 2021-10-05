@@ -9,7 +9,7 @@
 */
 
 // Jar 1
-let vertices1 = [
+let vertices2 = [
     // Bottom Part of Jar
     0.750, -0.500, 0.800, 0.990, 0.985, // 1
     0.700, -0.542, 0.800, 0.990, 0.985,
