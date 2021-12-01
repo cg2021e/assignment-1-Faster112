@@ -90,22 +90,22 @@ function main () {
     let y = 0;
 
     function render () {
-        up = up1;
-        vertices1.forEach((value, index) => {
-            if (up1) {
-                if (index % 5 == 1) {
-                    value += speed;
-                    if (value >= 1) up = false;
-                }
-            } else {
-                if (index % 5 == 1) {
-                    value -= speed;
-                    if (value <= -1) up = true;
-                }
-            }
-            vertices1[index] = value;
-        });
-        up1 = up;
+        // up = up1;
+        // vertices1.forEach((value, index) => {
+        //     if (up1) {
+        //         if (index % 5 == 1) {
+        //             value += speed;
+        //             if (value >= 1) up = false;
+        //         }
+        //     } else {
+        //         if (index % 5 == 1) {
+        //             value -= speed;
+        //             if (value <= -1) up = true;
+        //         }
+        //     }
+        //     vertices1[index] = value;
+        // });
+        // up1 = up;
         up = up2;
         vertices2.forEach((value, index) => {
             if (up2) {
