@@ -22,7 +22,7 @@ Hello, my name is **Mohammad Tauchid** and I want to draw a Jar
 7. The rendering result on the right side of the Canvas is animated vertically, bouncing back between the top and the bottom walls of the Canvas, with a speed of 0.0xxx units, where xxx is the last three digits of the NRP.
 8. Do not forget to commit and push the changes.
 ```
-[Here is the result](https://assignment.mohammadtauchid.com/index1.html)
+[Here is the result](https://assignment.mohammadtauchid.com/Tugas%202/index1.html)
 
 # Assignment 3
 ```
@@ -37,3 +37,4 @@ Hello, my name is **Mohammad Tauchid** and I want to draw a Jar
 9. Set the cube so that it can be moved upward with the W key-button and downward with the S key-button. 
 10. Set the camera to move leftward and rightward linearly (not orbitally) using the A and D key-buttons.
 ```
+[Here is the result](https://assignment.mohammadtauchid.com/Tugas%203/index2.html)
