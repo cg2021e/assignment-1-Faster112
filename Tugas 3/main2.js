@@ -199,7 +199,9 @@ function main () {
     let uViewerPosition = gl.getUniformLocation(shaderProgram, "uViewerPosition");
     gl.uniform3fv(uViewerPosition, camera);
 
-    let y_cube = [...cubelight]
+    let y_cube = [...cubelight];
+    let cameraOrbit = 90;
+    let cameraDistance = 3;
 
     let uLightOnValue = 0.;
     let uLightOn = gl.getUniformLocation(shaderProgram, "uLightOn");
@@ -212,6 +214,87 @@ function main () {
                 uLightOnValue = 1.;
             }
             gl.uniform1f(uLightOn, uLightOnValue);
+        } if(event.keyCode == 87) {
+            for(let i = 0; i < y_cube.length; i += 10) {
+                vertices[i + 1] += 0.030;
+                lightPosition[1] += 0.030 * 0.030;
+            }
+        }
+        else if(event.keyCode == 83) {
+            for(let i = 0; i < y_cube.length; i += 10) {
+                vertices[i + 1] -= 0.030;
+                lightPosition[1] -= 0.030 * 0.030;
+            }
+        } else if(event.keyCode == 65) {
+            camera[0] -= 0.015;
+            camNow[0] -= 0.015;
+            glMatrix.mat4.lookAt(
+                view,
+                camera,      
+                camNow,      
+                [0, 1, 0]     
+            );
+            gl.uniformMatrix4fv(uView, false, view);
+        } else if(event.keyCode == 68) {
+            camera[0] += 0.015;
+            camNow[0] += 0.015;
+            glMatrix.mat4.lookAt(
+                view,
+                camera,     
+                camNow,      
+                [0, 1, 0]       
+            );
+            gl.uniformMatrix4fv(uView, false, view);
+        } else if(event.keyCode == 38) { // arrow up
+            cameraDistance -= 0.1
+            let cos = Math.cos(cameraOrbit * Math.PI / 180.0);
+            let sin = Math.sin(cameraOrbit * Math.PI / 180.0);
+            camera = [cameraDistance * cos, 0, cameraDistance * sin];
+            glMatrix.mat4.lookAt(
+                view,
+                camera,      
+                camNow,      
+                [0, 1, 0]       
+            );
+            gl.uniformMatrix4fv(uView, false, view);
+        } else if(event.keyCode == 40) { // arrow down
+            cameraDistance += 0.1
+            let cos = Math.cos(cameraOrbit * Math.PI / 180.0);
+            let sin = Math.sin(cameraOrbit * Math.PI / 180.0);
+            camera = [cameraDistance*cos, 0, cameraDistance * sin];
+            glMatrix.mat4.lookAt(
+                view,
+                camera,      
+                camNow,       
+                [0, 1, 0] 
+            );
+            gl.uniformMatrix4fv(uView, false, view);
+        }
+
+        else if(event.keyCode == 37) { // arrow left
+            cameraOrbit += 0.5
+            let cos = Math.cos(cameraOrbit * Math.PI / 180.0);
+            let sin = Math.sin(cameraOrbit * Math.PI / 180.0);
+            camera = [cameraDistance * cos, 0, cameraDistance * sin];
+            glMatrix.mat4.lookAt(
+                view,
+                camera,      
+                camNow,    
+                [0, 1, 0] 
+            );
+            gl.uniformMatrix4fv(uView, false, view);
+        } else if(event.keyCode == 39) { // arrow right
+            cameraOrbit -= 0.5
+            let cos = Math.cos(cameraOrbit * Math.PI / 180.0);
+            let sin = Math.sin(cameraOrbit * Math.PI / 180.0);
+            camera = [cameraDistance * cos, 0, cameraDistance * sin];
+            glMatrix.mat4.lookAt(
+                view,
+                camera,  
+                camNow,   
+                [0, 1, 0]  
+            );
+            gl.uniformMatrix4fv(uView, false, view);
         }
     }
 
