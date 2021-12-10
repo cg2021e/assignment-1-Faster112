@@ -66,6 +66,7 @@ function main () {
         uniform vec3 uLightPosition;
         uniform mat3 uNormalModel;
         uniform vec3 uViewerPosition;
+        uniform float uLightOn;
         void main() {
             vec3 ambient = uLightConstant * uAmbientIntensity;
             vec3 lightDirection = uLightPosition - vPosition;
@@ -73,7 +74,7 @@ function main () {
             vec3 normalizedNormal = normalize(uNormalModel * vNormal);
             float cosTheta = dot(normalizedNormal, normalizedLight);
             vec3 diffuse = vec3(0., 0., 0.);
-            if (cosTheta > 0.) {
+            if (uLightOn == 1.0 && cosTheta > 0.) {
                 float diffuseIntensity = cosTheta;
                 diffuse = uLightConstant * diffuseIntensity;
             }
@@ -82,7 +83,7 @@ function main () {
             vec3 normalizedViewer = normalize(uViewerPosition - vPosition);
             float cosPhi = dot(normalizedReflector, normalizedViewer);
             vec3 specular = vec3(0., 0., 0.);
-            if (cosPhi > 0.) {
+            if (uLightOn == 1.0 && cosPhi > 0.) {
                 float specularIntensity = pow(cosPhi, vShininessConstant); 
                 specular = uLightConstant * specularIntensity;
             }
@@ -198,7 +199,23 @@ function main () {
     let uViewerPosition = gl.getUniformLocation(shaderProgram, "uViewerPosition");
     gl.uniform3fv(uViewerPosition, camera);
 
-    var y_cube = [...cubelight]
+    let y_cube = [...cubelight]
+
+    let uLightOnValue = 0.;
+    let uLightOn = gl.getUniformLocation(shaderProgram, "uLightOn");
+
+    function onKeyPressed(event) {
+        if(event.keyCode == 32) {
+            if(uLightOnValue == 1.) {
+                uLightOnValue = 0.;
+            } else if(uLightOnValue == 0.) {
+                uLightOnValue = 1.;
+            }
+            gl.uniform1f(uLightOn, uLightOnValue);
+        }
+    }
+
+    document.addEventListener("keydown", onKeyPressed);
 
     function render () {        
         gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
