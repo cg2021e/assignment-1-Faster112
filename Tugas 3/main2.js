@@ -10,8 +10,20 @@ function main () {
         C (  0.0,  0.5 )
         D ( -0.5,  0.5 )
     */
-    let vertices = [...cubelight, ...vertices1_3d, ...vertices2_3d];
-    let indices = [...indices_cl, ...indices_v1, ...indices_v2];
+    let v_plane = [
+        -10, -1.5, -10, 0.074, 0.380, 0.211, /* #136136 */  0, 0, -1, 10,
+        -10, -1.5,  10, 0.074, 0.380, 0.211, /* #136136 */  0, 0, -1, 10,
+         10, -1.5,  10, 0.074, 0.380, 0.211, /* #136136 */  0, 0, -1, 10,
+         10, -1.5, -10, 0.074, 0.380, 0.211, /* #136136 */  0, 0, -1, 10,
+    ]
+
+    let i_plane = [
+        96, 97, 98,
+        98, 99, 96,
+    ]
+
+    let vertices = [...cubelight, ...vertices1_3d, ...vertices2_3d, ...v_plane];
+    let indices = [...indices_cl, ...indices_v1, ...indices_v2, ...i_plane];
 
     // Create a linked-list for starting the vertices data
     let vertexBuffer = gl.createBuffer()
