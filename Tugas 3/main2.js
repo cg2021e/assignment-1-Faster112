@@ -188,45 +188,6 @@ function main () {
 
     var y_cube = [...cubelight]
 
-    function onKeyPressed(event) {
-        if(event.keyCode == 87) {
-            for(let i=0;i<y_cube.length;i+=10) {
-                vertices[i+1] += 0.030;
-                lightPosition[1] += 0.030 * 0.030;
-            }
-        }
-        else if(event.keyCode == 83) {
-            for(let i=0;i<y_cube.length;i+=10) {
-                vertices[i+1] -= 0.030;
-                lightPosition[1] -= 0.030 * 0.030;
-            }
-        }
-        else if(event.keyCode == 65) {
-            camera[0] -= 0.015;
-            camNow[0] -= 0.015;
-            glMatrix.mat4.lookAt(
-                view,
-                camera,      // camera position
-                camNow,      // the point where camera looks at
-                [0, 1, 0]       // up vector of the camera
-            );
-            gl.uniformMatrix4fv(uView, false, view);
-        }
-        else if(event.keyCode == 68) {
-            camera[0] += 0.015;
-            camNow[0] += 0.015;
-            glMatrix.mat4.lookAt(
-                view,
-                camera,      // camera position
-                camNow,      // the point where camera looks at
-                [0, 1, 0]       // up vector of the camera
-            );
-            gl.uniformMatrix4fv(uView, false, view);
-        }
-    }
-
-    document.addEventListener("keydown",onKeyPressed,false);
-
     function render () {        
         gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
